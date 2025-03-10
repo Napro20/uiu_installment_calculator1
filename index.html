@@ -16,7 +16,7 @@
             height: 100vh;
             margin: 0;
         }
-    
+
         .container {
             background: rgba(255, 255, 255, 0.9);
             padding: 20px 30px;
@@ -25,14 +25,14 @@
             text-align: center;
             width: 300px;
         }
-    
+
         label {
             display: block;
             font-weight: bold;
             margin: 10px 0 5px;
             text-align: left;
         }
-    
+
         input,
         select {
             display: block;
@@ -43,7 +43,7 @@
             border-radius: 5px;
             box-sizing: border-box;
         }
-    
+
         button {
             display: block;
             width: 100%;
@@ -56,11 +56,11 @@
             cursor: pointer;
             transition: 0.3s;
         }
-    
+
         button:hover {
             background: darkorange;
         }
-    
+
         h3 {
             margin-top: 15px;
             font-size: 16px;
@@ -96,37 +96,43 @@
     <script>
         function calculateFee() {
             // Input values
-            let studentId = document.getElementById("studentId").value.trim();
-            let totalCredits = document.getElementById("totalCredits").value.trim();
-            let withdrawnCredits = document.getElementById("withdrawnCredits").value.trim();
-            let scholarship = document.getElementById("scholarship").value;
+            const studentId = document.getElementById("studentId").value.trim();
+            const totalCredits = document.getElementById("totalCredits").value.trim();
+            const withdrawnCredits = document.getElementById("withdrawnCredits").value.trim();
+            const scholarshipDropdown = document.getElementById("scholarship");
+
+            // Handle scholarship logic
+            let scholarship = scholarshipDropdown.value;
+            if (scholarshipDropdown.selectedIndex === 0) {
+                scholarship = 0; // Default to 0% if "Select" is not changed
+            }
 
             // Validate inputs
-            if (!studentId || !totalCredits || !withdrawnCredits || scholarship === "") {
+            if (!studentId || !totalCredits || !withdrawnCredits) {
                 alert("Please fill out all fields before calculating.");
                 return;
             }
 
             // Convert values to numbers
-            totalCredits = parseInt(totalCredits);
-            withdrawnCredits = parseInt(withdrawnCredits);
-            scholarship = parseInt(scholarship);
+            const totalCreditsNum = parseInt(totalCredits);
+            const withdrawnCreditsNum = parseInt(withdrawnCredits);
+            const scholarshipNum = parseInt(scholarship);
 
             // Fees based on Student ID
-            let perCreditFee = studentId > "011242" ? 6500 : 5000;
-            let regFee = studentId > "011242" ? 7000 : 5000;
-            let withdrawDiscount = 50;
+            const perCreditFee = studentId > "011242" ? 6500 : 5000;
+            const regFee = studentId > "011242" ? 6500 : 5000;
+            const withdrawDiscount = 50;
 
             // Fee calculations
-            let totalFee = totalCredits * perCreditFee;
-            let withdrawFee = (withdrawnCredits * perCreditFee) * (withdrawDiscount / 100);
-            let discountedFee = totalFee - (totalFee * (scholarship / 100)) - withdrawFee;
-            let finalFee = discountedFee + regFee;
+            const totalFee = totalCreditsNum * perCreditFee;
+            const withdrawFee = (withdrawnCreditsNum * perCreditFee) * (withdrawDiscount / 100);
+            const discountedFee = totalFee - (totalFee * (scholarshipNum / 100)) - withdrawFee;
+            const finalFee = discountedFee + regFee;
 
             // Installments
-            let installment1 = (finalFee * 40) / 100;
-            let installment2 = (finalFee * 30) / 100;
-            let installment3 = (finalFee * 30) / 100;
+            const installment1 = (finalFee * 40) / 100;
+            const installment2 = (finalFee * 30) / 100;
+            const installment3 = (finalFee * 30) / 100;
 
             // Display results
             document.getElementById("result").innerHTML = `
