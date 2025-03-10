@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> uiu Installment Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: url('uiu.jpg') no-repeat center center/cover;
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 20px 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            width: 300px;
+        }
+
+        label {
+            display: block;
+            font-weight: bold;
+            margin: 10px 0 5px;
+            text-align: left;
+        }
+
+        input,
+        select {
+            display: block;
+            width: 100%;
+            margin-bottom: 15px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+
+        button {
+            display: block;
+            width: 100%;
+            background: orange;
+            color: white;
+            font-size: 16px;
+            border: none;
+            padding: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        button:hover {
+            background: darkorange;
+        }
+
+        h3 {
+            margin-top: 15px;
+            font-size: 16px;
+            line-height: 1.5;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h2>UIU Installment Calculator</h2>
+        <label for="totalCredits">Total Credits:</label>
+        <input type="number" id="totalCredits" placeholder="Enter total credits">
+        <label for="withdrawn/Retake Credits">Withdrawn/Retake Credits:</label>
+        <input type="number" id="withdrawnCredits" placeholder="Enter withdrawn/Retake credits">
+        <label for="scholarship">Scholarship:</label>
+        <select id="scholarship">
+            <option disabled selected>Select</option>
+            <option value="50">50%</option>
+            <option value="25">25%</option>
+            <option value="100">100%</option>
+        </select>
+        <button onclick="calculateFee()">Calculate</button>
+        <h3 id="result"></h3>
+    </div>
+
+    <script>
+        function calculateFee() {
+            let totalCredits = parseInt(document.getElementById("totalCredits").value) || 0;
+            let withdrawnCredits = parseInt(document.getElementById("withdrawnCredits").value) || 0;
+            let scholarship = parseInt(document.getElementById("scholarship").value);
+            let perCreditFee = 5000;
+            let regFee = 5000;
+            let withdrawDiscount = 50;
+
+            let totalFee = totalCredits * perCreditFee;
+            let withdrawFee = (withdrawnCredits * perCreditFee) * (withdrawDiscount / 100);
+            let discountedFee = totalFee - (totalFee * (scholarship / 100)) - withdrawFee;
+            let finalFee = discountedFee + regFee;
+
+            let installment1 = (finalFee * 40) / 100;
+            let installment2 = (finalFee * 30) / 100;
+            let installment3 = (finalFee * 30) / 100;
+
+            document.getElementById("result").innerHTML = `
+                Total Payable With Reg fee: ${finalFee} BDT<br>
+                1st Installment (40%): ${installment1} BDT<br>
+                2nd Installment (30%): ${installment2} BDT<br>
+                3rd Installment (30%): ${installment3} BDT
+            `;
+        }
+    </script>
+</body>
+
+</html>
